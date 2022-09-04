@@ -1,0 +1,9 @@
+@each $weight in (100, 200, 300, 400, 500, 700) {
+	@font-face {
+		font-family: 'Dodo';
+		src: url('../assets/fonts/Dodo.woff2') format('woff2');
+		font-weight: $weight;
+		font-style: normal;
+		font-display: swap;
+	}
+}

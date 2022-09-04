@@ -1,0 +1,44 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	font-family: 'Dodo', sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+
+section {
+	display: flex;
+	margin: auto;
+	justify-content: center;
+	flex: wrap;
+	align-items: center;
+}
+
+section > h2 {
+	position: relative !important;
+	left: 400px;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.ProductWrapper {
+	margin-top: 4rem;
+	width: 1280px;
+	display: flex;
+    flex-wrap: wrap;
+	justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 32px;
+}
+
