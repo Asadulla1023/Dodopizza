@@ -1,0 +1,57 @@
+.footerBottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: rgb(255, 105, 0);
+    height: 60px;
+}
+
+.secretBuyer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1280px;
+    height: 100%;
+}
+
+.secretBuyerSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.secretBuyerSection > p {
+    font-size: 18px;
+    position: relative;
+    left: 20px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.secretBuyerSection > a {
+    color: rgb(255, 105, 0);
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    background: #fff;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: 0.1s linear;
+}
+
+.secretBuyerSection > a:hover {
+    background: rgb(253, 184, 134);
+}
+
+.secretBuyerSection > a:active {
+    background: #fff;
+    color: rgb(246, 218, 168);
+}
+
+.cont5 {
+    display: block;
+    justify-content: center;
+}

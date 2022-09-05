@@ -1,0 +1,123 @@
+.drinkCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drinksCard {
+    transition: 1.2s linear;
+    width: 292px;
+}
+
+.drinksCard > h2 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.drinksCard > p {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1em;
+    color: #5c6370;
+    width: 100%;
+    text-align: left;
+}
+
+.drinkimg > img {
+    width: 95%;
+    transition: 1s linear;
+}
+
+.drinkimg > img:hover {
+    transition: top 150ms ease-out;
+    position: relative;
+    top: 3px;
+}
+
+.costToTake {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.costToTake > p {
+    font-size: 16px;
+    font-weight: 700;
+    position: relative;
+    top: 5px;
+}
+
+.costToTake > button {
+    margin-top: 10px;
+    background: rgb(255, 240, 230);;
+    color: rgb(209, 87, 0);
+    border: 0 solid #000;
+    height: 40px;
+    font-size: 16px;
+    padding: 8px 30px;
+    border-radius: 25px;
+    transition: 0.2s linear;
+}
+
+.costToTake > button:hover {
+    background: rgb(241, 171, 120);
+}
+
+@media only screen and (max-width: 1459px) {
+	.drinkCard {
+		width: 233px;
+	}
+
+    .drinksCard > p {
+        font-size: 12px;
+    }
+
+    .SnackCard {
+        width: 233px;
+    }
+
+	.costToTake > p {
+		font-size: 14px;
+	}
+    .costToTake > button {
+        padding: 4px 15px;
+        font-size: 14px;
+    }
+}
+
+
+@media only screen and (max-width: 1050px) {
+    .drinkCard {
+		width: 200px;
+	}
+
+    .SnackCard {
+        width: 200px;
+    }
+
+	.costToTake > p {
+		font-size: 12px;
+	}
+    .costToTake > button {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 913px) {
+    .drinkCard {
+		width: 180px;
+	}
+
+    .SnackCard {
+        width: 180px;
+    }
+
+	.costToTake > p {
+		font-size: 10px;
+	}
+    .costToTake > button {
+        font-size: 10px;
+    }
+}

@@ -1,4 +1,4 @@
-import { NavigationBar, ProductCard, ComboCard, SnackCards } from 'components/'
+import { NavigationBar, ProductCard, ComboCard, SnackCards, DrinksCard, Delivery, Footer, Bottom}from 'components/'
 import { LayoutContainer } from 'components/Layout/LayoutContainer'
 
 import { PIZZA_DATA } from 'constants/pizzas'
@@ -6,6 +6,8 @@ import { PIZZA_DATA } from 'constants/pizzas'
 import { COMBO_DATA } from './constants/Combo'
 
 import { SNACKS_DATA } from './constants/snacks'
+
+import {DRINKS_DATA} from './constants/drinks'
 
 function App() {
 	return (
@@ -34,6 +36,16 @@ function App() {
 					))}
 				</div>
 			</section>
+			<section>
+			<div className='ProductWrapper'>
+				{DRINKS_DATA.map(drinks => (
+					<DrinksCard {...drinks} key={Math.random() + 100002901299.812}/>
+				))}
+			</div>
+			</section>
+			<Delivery/>
+			<Footer/>
+			<Bottom/>
 		</>
 	)
 }
