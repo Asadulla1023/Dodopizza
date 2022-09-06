@@ -1,7 +1,7 @@
 // @ts-ignore
 import styles from './ProductCard.module.scss'
 
-export const ProductCard: React.FC<any> = (props: any) => {
+ export const ProductCard: React.FC<any> = (props: any) => {
 	return (
 		<div className={styles.ProductCard}>
 			<div className={styles.Card}>

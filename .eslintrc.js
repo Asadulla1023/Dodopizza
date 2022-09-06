@@ -33,6 +33,8 @@ module.exports = {
 		'jsx-a11y/anchor-is-valid': 0,
 		'react/jsx-props-no-spreading': 0,
 		'react/destructuring-assignment': 0,
+		'jsx-a11y/label-has-associated-control': 0,
+		'import/order': 0,
 	},
 	settings: {
 		'import/ignore': ['.css$', 'node_modules/*'],
