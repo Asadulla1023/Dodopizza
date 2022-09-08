@@ -35,6 +35,7 @@ module.exports = {
 		'react/destructuring-assignment': 0,
 		'jsx-a11y/label-has-associated-control': 0,
 		'import/order': 0,
+		'react/prop-types': 0,
 	},
 	settings: {
 		'import/ignore': ['.css$', 'node_modules/*'],

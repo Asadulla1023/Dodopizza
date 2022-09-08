@@ -1,3 +1,5 @@
+
+
 // @ts-ignore
 import './modal.scss'
 
@@ -7,7 +9,7 @@ import close from './images/close.svg'
 export const Modal = () => {
 	return (
 		<>
-			<div className='modal modal_medium modal_active'>
+			<div className='modal hidden modal_medium modal_active'>
 				<button type='button' className='modal__close'>
 					<img src={close} alt='x' />
 				</button>
@@ -183,7 +185,7 @@ export const Modal = () => {
 					</button>
 				</div>
 			</div>
-			<div className='modal-bg'>.</div>
+			<div className='hidden modal-bg'>.</div>
 		</>
 	)
 }
