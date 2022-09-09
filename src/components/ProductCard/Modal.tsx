@@ -1,4 +1,4 @@
-
+// import {useState, useRef} from 'react'
 
 // @ts-ignore
 import './modal.scss'

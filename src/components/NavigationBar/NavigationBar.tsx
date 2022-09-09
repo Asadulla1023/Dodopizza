@@ -1,12 +1,15 @@
 import { useState } from 'react'
 
+
 import { NAVBAR_CONFIG } from '../../constants'
-import { Modal } from './ModalBin';
+import { Modal } from './ModalBin'
+import {SignIn} from './Signin'
 // @ts-ignore
 import styles from './NavigationBar.module.scss'
 
 export const NavigationBar: React.FC = () => {
-	const [modalOpen, setOpenModal] = useState(false);
+	const [modalOpen, setOpenModal] = useState(false)
+	const [signIn, setSignIn] = useState(false)
 	return (
 		<>
 			<div className={styles.headerNavMenu}>
@@ -30,9 +33,18 @@ export const NavigationBar: React.FC = () => {
 						>
 							Корзина
 						</button>
+						<button
+							type='button'
+							onClick={() => {
+								setSignIn(true)
+							}}
+						>
+							Войти
+						</button>
 					</div>
 				</div>
 			</div>
+			{signIn && <SignIn setSignIn={setSignIn}/>}
 			{modalOpen && <Modal setOpenModal={setOpenModal} />}
 		</>
 	)
