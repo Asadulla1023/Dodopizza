@@ -2,7 +2,7 @@ import { Banner, NavigationBar, Container, Footer } from 'components'
 import { AboutPage } from 'pages/AboutPage'
 import { HomePage } from 'pages/HomePage'
 import { Route, Routes } from 'react-router-dom'
-
+// hello
 const App: React.FC = () => {
 	return (
 		<>
