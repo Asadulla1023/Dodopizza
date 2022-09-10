@@ -39,6 +39,8 @@ module.exports = {
 		'jsx-a11y/click-events-have-key-events': 0,
 		'react/style-prop-object': 0,
 		'jsx-a11y/control-has-associated-label': 0,
+		'no-unused-vars': 1,
+		'jsx-a11y/no-static-element-interactions': 0,
 	},
 	settings: {
 		'import/ignore': ['.css$', 'node_modules/*'],

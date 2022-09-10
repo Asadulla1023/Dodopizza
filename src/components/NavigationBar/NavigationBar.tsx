@@ -1,51 +1,25 @@
-import { useState } from 'react'
-
-
+import { Link } from 'react-router-dom'
 import { NAVBAR_CONFIG } from '../../constants'
-import { Modal } from './ModalBin'
-import {SignIn} from './Signin'
 // @ts-ignore
-import styles from './NavigationBar.module.scss'
+import styles from './NavigationBar.module.css'
 
-export const NavigationBar: React.FC = () => {
-	const [modalOpen, setOpenModal] = useState(false)
-	const [signIn, setSignIn] = useState(false)
-	return (
-		<>
-			<div className={styles.headerNavMenu}>
-				<ul className={styles.navMenuList}>
-					{NAVBAR_CONFIG.map(item => (
-						<li className={styles.menuListItem} key={item.label}>
-							<a href={`/${item.path}`} className={styles.menuListItemLink}>
-								{item.label}
-							</a>
-						</li>
-					))}
-				</ul>
-				<div className='menu_right'>
-					<div className='navBtn'>
-						<button
-							onClick={() => {
-								setOpenModal(true)
-							}}
-							className='menuBtn'
-							type='button'
-						>
-							Корзина
-						</button>
-						<button
-							type='button'
-							onClick={() => {
-								setSignIn(true)
-							}}
-						>
-							Войти
-						</button>
-					</div>
-				</div>
+export const NavigationBar: React.FC = () => (
+	<div className={styles.header_nav_menu}>
+		<ul className={styles.nav_menu_list}>
+			{NAVBAR_CONFIG.map(item => (
+				<li className={styles.menu_list_item} key={item.label}>
+					<Link to={`/${item.link}`} className={styles.menu_list_item_link}>
+						{item.label}
+					</Link>
+				</li>
+			))}
+		</ul>
+		<div className='menu_right'>
+			<div className={styles.navBtn}>
+				<button className={styles.menuBtn} type='button'>
+					Корзина
+				</button>
 			</div>
-			{signIn && <SignIn setSignIn={setSignIn}/>}
-			{modalOpen && <Modal setOpenModal={setOpenModal} />}
-		</>
-	)
-}
+		</div>
+	</div>
+)

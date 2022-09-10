@@ -1,44 +1,78 @@
+import { ProductType } from './dataBase/interfces'
+import {COMBOS, DESSERTS, DRINKS, PIZZAS, PIZZAS_COMBO, SNAKS} from './dataBase';
+
 export const NAVBAR_CONFIG = [
 	{
 		label: 'Пицца',
-		path: 'pizzas',
+		link: 'pizzas',
 	},
-
 	{
 		label: 'Комбо',
-		path: 'combos',
+		link: 'combo',
 	},
-
 	{
 		label: 'Закуски',
-		path: 'snacks',
+		link: 'snacks',
 	},
 	{
 		label: 'Десерты',
-		path: 'desserts',
+		link: 'desserts',
 	},
 	{
 		label: 'Напитки',
-		path: 'drinks',
+		link: 'drinks',
 	},
 	{
 		label: 'Акции',
-		path: 'promos',
+		link: 'bonusactions',
 	},
 	{
 		label: 'Контакты',
-		path: 'contacts',
+		link: 'contacts',
 	},
 	{
 		label: 'Франшиза',
-		path: 'franchise',
+		link: 'franchise',
 	},
 	{
 		label: 'О нас',
-		path: 'about',
+		link: 'about',
 	},
 	{
 		label: 'Прямой эфир',
-		path: 'live',
+		link: 'live',
+	},
+]
+
+export const PRODUCTS_DATA: Array<ProductType> = [
+	{
+		id: 1,
+		title: 'Пицца',
+		type: 'pizzas',
+		products: [...PIZZAS_COMBO, ...PIZZAS],
+	},
+	{
+		id: 2,
+		title: 'Комбо',
+		type: 'combo',
+		products: COMBOS,
+	},
+	{
+		id: 3,
+		title: 'Закуски',
+		type: 'snacks',
+		products: SNAKS,
+	},
+	{
+		id: 4,
+		title: 'Десерты',
+		type: 'desserts',
+		products: DESSERTS,
+	},
+	{
+		id: 5,
+		title: 'Напитки',
+		type: 'drinks',
+		products: DRINKS,
 	},
 ]

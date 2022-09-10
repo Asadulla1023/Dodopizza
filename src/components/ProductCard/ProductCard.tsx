@@ -1,21 +1,40 @@
+import { Product } from 'constants/dataBase/products/product'
 // @ts-ignore
 import styles from './ProductCard.module.scss'
 
- export const ProductCard: React.FC<any> = (props: any) => {
+export interface IProductCardProps {
+	product: Product
+	setIsModalOpen: Function
+}
+
+export const ProductCard: React.FC<IProductCardProps> = ({
+	product,
+	setIsModalOpen,
+}: IProductCardProps) => {
+	const openModalHandler = (): void => {
+		setIsModalOpen(true)
+	}
+
 	return (
-		<div className={styles.ProductCard}>
-			<div className={styles.Card}>
-				<div className={styles.img}>
-					<img
-						src={props.sizes.medium && props.sizes.medium.imgs.normal}
-						alt={props.title}
-					/>
-				</div>
-				<h2>{props.title}</h2>
-				<p>Соус сырный, сыр моцарелла, цыпленок, томаты</p>
-				<div className={styles.costToTake}>
-					<p>от {props.sizes.medium.price}</p>
-					<button type='button'>Выбрать</button>
+		<div className={styles.card} onClick={openModalHandler}>
+			<div className={styles.card_body}>
+				<img
+					src={product.img}
+					alt='Маргарита'
+					className={styles.card_img}
+					width='221'
+				/>
+				<h3 className={styles.card_title}>{product.title}</h3>
+				<p className={styles.card_text}>
+					Соус сырный, сыр моцарелла, цыпленок, томаты
+				</p>
+			</div>
+			<div className={styles.card_footer}>
+				<p className={styles.card_price}>от {`${product.price / 1000} 000`} сум</p>
+				<div className={styles.card_button_wrapper}>
+					<button className={styles.card_button} type='button'>
+						Выбрать
+					</button>
 				</div>
 			</div>
 		</div>

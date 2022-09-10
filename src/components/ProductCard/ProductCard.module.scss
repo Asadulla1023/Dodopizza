@@ -1,100 +1,74 @@
-.ProductCard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.card {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 292px;
+	cursor: pointer;
 }
 
-.Card {
-    transition: 1.2s linear;
-    width: 292px;
+.card_img {
+	position: relative;
+	top: 3px;
+	width: 95%;
+	margin: 5% 0px 0px 5%;
+	transition: top 150ms ease-out;
 }
 
-.Card > h2 {
-    font-size: 20px;
-    font-weight: 500;
+.card_img:hover {
+	top: 0;
 }
 
-.Card > p {
-    margin-top: 10px;
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0.1em;
-    color: #5c6370;
-    width: 233px;
-    text-align: left;
+.card_title {
+	margin: 8px 0;
+	font-size: 20px;
+	line-height: 24px;
+	font-weight: 500;
 }
 
-.img > img {
-    width: 95%;
-    transition: 1s linear;
+.card_text {
+	font-size: 14px;
+	line-height: 20px;
+	color: #5c6370;
 }
 
-.img > img:hover {
-    transition: top 150ms ease-out;
-    position: relative;
-    top: 3px;
+.card_footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 1rem;
 }
 
-.costToTake {
-    width: 220px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.card_price {
+	font-size: 20px;
+	font-weight: 500;
 }
 
-.costToTake > p {
-    font-size: 16px;
-    font-weight: 700;
-    position: relative;
-    top: 5px;
+.card_button {
+	width: 120px;
+	padding: 8px 20px;
+	border: 0;
+	font-family: inherit;
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 24px;
+	border-radius: 9999px;
+	background-color: #fff0e6;
+	color: #d15700;
+	transition: background-color 200ms ease-out, color 200ms ease-out;
+	cursor: pointer;
 }
 
-.costToTake > button {
-    margin-top: 10px;
-    background: rgb(255, 240, 230);;
-    color: rgb(209, 87, 0);
-    border: 0 solid #000;
-    height: 40px;
-    font-size: 16px;
-    padding: 8px 30px;
-    border-radius: 25px;
-    transition: 0.2s linear;
-}
-
-.costToTake > button:hover {
-    background: rgb(241, 171, 120);
+.card_button:hover {
+	background-color: #ffd2b3;
+	color: #d15700;
 }
 
 @media only screen and (max-width: 1459px) {
-	.Card {
+	.card {
 		width: 233px;
 	}
 
-    .SnackCard {
-        width: 233px;
-    }
-
-	.costToTake > p {
-		font-size: 14px;
+	.card_price {
+		font-size: 16px;
 	}
-}
-
-
-.modal {
-    height: 100vh;
-    width: 100vw;
-    background: rgba(0, 0, 0, 0.4);
-    position: fixed;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modalContent {
-    padding: 20px;
-    border-radius: 12px;
-    background: #fff;
-    height: 200px;
-    width: 400px;
 }
