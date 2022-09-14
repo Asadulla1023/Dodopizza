@@ -1,0 +1,60 @@
+.modalBg {
+	visibility: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: black;
+	opacity: 0.55;
+	width: 100vw;
+	height: 150vh;
+	z-index: 10;
+}
+
+.modal {
+	visibility: hidden;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: fixed;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	box-shadow: #00000033 0 30px 60px;
+	background-color: #fff;
+	border-radius: 20px;
+}
+
+.modal input {
+	outline: none;
+}
+
+.modalActive {
+	visibility: visible;
+}
+.modalActive ~ .modalBg {
+	visibility: visible;
+}
+
+.modalSmall {
+	width: 409px;
+	height: 399px;
+	padding: 32px;
+}
+
+.modalClose {
+	position: absolute;
+	top: 14px;
+	right: -38px;
+	cursor: pointer;
+	width: 25px;
+	height: 25px;
+	border: none;
+	font: inherit;
+	color: #fff;
+	background-color: transparent;
+	transition: transform 0.1s ease-in-out;
+}
+.modalClose:hover {
+	transform: scale(1.11);
+}
