@@ -14,6 +14,10 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
 	}
+
+	const phoneNumberInputHandler = (e: any) => {
+		console.log(e.target.value)
+	}
 	return (
 		<>
 			<div
@@ -35,7 +39,12 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 				</p>
 				<form action='#'>
 					<button type='button'>Uzb</button>
-					<input type='number' />
+					<input
+						type='number'
+						onChange={e => {
+							phoneNumberInputHandler(e)
+						}}
+					/>
 					<input type='submit' value='Выслать код' />
 				</form>
 			</div>
