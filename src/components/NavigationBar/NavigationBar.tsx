@@ -5,13 +5,14 @@ import styles from './NavigationBar.module.css'
 
 export const NavigationBar: React.FC = () => (
 	<div className={styles.header_nav_menu}>
+		<div className={styles.navbar__top}>
 		<ul className={styles.nav_menu_list}>
 			{NAVBAR_CONFIG.map(item => (
 				<li className={styles.menu_list_item} key={item.label}>
 					<Link to={`/${item.link}`} className={styles.menu_list_item_link}>
 						{item.label}
 					</Link>
-				</li>
+				</li>  
 			))}
 		</ul>
 		<div className='menu_right'>
@@ -20,6 +21,7 @@ export const NavigationBar: React.FC = () => (
 					Корзина
 				</button>
 			</div>
+		</div>
 		</div>
 	</div>
 )
