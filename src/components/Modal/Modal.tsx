@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 // @ts-ignore
 import styles from './Modal.module.scss'
 

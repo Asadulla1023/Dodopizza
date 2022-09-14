@@ -1,14 +1,21 @@
-import { Banner, NavigationBar, Container, Footer } from 'components'
+import { Banner, NavigationBar, Container, Footer, AuthModal } from 'components'
 import { AboutPage } from 'pages/AboutPage'
 import { HomePage } from 'pages/HomePage'
+import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 // hello
 const App: React.FC = () => {
+	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+
 	return (
 		<>
 			<Container>
-				<Banner />
+				<Banner setIsAuthModalOpen={setIsAuthModalOpen} />
 				<NavigationBar />
+				<AuthModal
+					isAuthModalOpen={isAuthModalOpen}
+					setIsAuthModalOpen={setIsAuthModalOpen}
+				/>
 				<Routes>
 					<Route path='/' element={<HomePage />} />
 					<Route path='/about' element={<AboutPage />} />
