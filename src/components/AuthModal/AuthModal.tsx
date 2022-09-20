@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { FormEvent, useRef } from 'react'
+import { FormEvent, useEffect, useRef } from 'react'
 // @ts-ignore
 import styles from './AuthModal.module.scss'
 
@@ -17,6 +17,12 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
 	}
+
+	useEffect(() => {
+		window.addEventListener('wheel', (e): void => {
+			if (e.ctrlKey) e.preventDefault()
+		})
+	})
 
 	const phoneNumberInputHandler = (event: KeyboardEvent) => {
 		if (telInputRef.current) {
