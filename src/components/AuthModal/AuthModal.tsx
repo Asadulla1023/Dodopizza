@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { FormEvent, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 // @ts-ignore
 import styles from './AuthModal.module.scss'
 
@@ -13,6 +13,10 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	setIsAuthModalOpen,
 }: IAuthModalProps) => {
 	const telInputRef = useRef<HTMLInputElement>(null)
+	const modalBgRef = useRef<HTMLDivElement>(null)
+	const submitBtnRef = useRef<HTMLInputElement>(null)
+
+	const [telArray, setTelArray] = useState<Array<string>>(['+998-'])
 
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
@@ -22,26 +26,62 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 		window.addEventListener('wheel', (e): void => {
 			if (e.ctrlKey) e.preventDefault()
 		})
+
+		if (isAuthModalOpen) {
+			document.body.style.overflow = 'hidden'
+		} else {
+			document.body.style.overflow = ''
+		}
 	})
 
 	const phoneNumberInputHandler = (event: KeyboardEvent) => {
 		if (telInputRef.current) {
-			// @ts-ignore
-			if (telInputRef.current.value.length <= 4) {
-				telInputRef.current.value = '+998'
+			const updatedTelArray = [...telArray]
+			if (event.key === 'Backspace' && telArray.length > 1) {
+				updatedTelArray.pop()
+				setTelArray(updatedTelArray)
+				return
 			}
 
-			if (telInputRef.current.value.length === 13) {
+			if (event.key === 'Backspace' && telArray.length === 1) {
+				event.preventDefault()
+				return
+			}
+
+			if (updatedTelArray.length === 11) {
+				event.preventDefault()
+				return
+			}
+
+			if (/\d/.test(event.key)) {
+				if (
+					updatedTelArray.length === 2 ||
+					updatedTelArray.length === 5 ||
+					updatedTelArray.length === 7
+				) {
+					updatedTelArray.push(event.key.concat('-'))
+					setTelArray(updatedTelArray)
+					telInputRef.current.value = telArray.join('')
+				} else {
+					updatedTelArray.push(event.key)
+					setTelArray(updatedTelArray)
+					telInputRef.current.value = telArray.join('')
+				}
+			}
+
+			if (/\D/.test(event.key)) {
 				if (event.key !== 'Backspace') {
 					event.preventDefault()
 				}
 			}
-		}
 
-		// @ts-ignore
-		if (/\D/.test(event.key)) {
-			if (event.key !== 'Backspace') {
-				event.preventDefault()
+			if (telInputRef.current?.value.length === 17) {
+				if (submitBtnRef.current) {
+					submitBtnRef.current.disabled = false
+				}
+			} else {
+				// @ts-ignore
+				submitBtnRef.current.disabled = true
 			}
 		}
 	}
@@ -85,6 +125,8 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 										phoneNumberInputHandler(e)
 									}}
 									placeholder='+998 99-999-99-99'
+									maxLength={13}
+									minLength={13}
 									className={styles.telInput}
 									ref={telInputRef}
 								/>
@@ -95,11 +137,16 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 						type='submit'
 						value='Выслать код'
 						className={styles.submitButton}
+						ref={submitBtnRef}
 						disabled
 					/>
 				</form>
 			</div>
-			<div className={styles.modalBg} />
+			<div
+				className={styles.modalBg}
+				ref={modalBgRef}
+				onClick={modalCloseHandler}
+			/>
 		</>
 	)
 }
