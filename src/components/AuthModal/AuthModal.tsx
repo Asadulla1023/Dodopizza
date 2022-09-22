@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from 'react'
 // @ts-ignore
 import styles from './AuthModal.module.scss'
 
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
+import 'react-phone-number-input/style.css'
+
 export interface IAuthModalProps {
 	isAuthModalOpen: boolean
 	setIsAuthModalOpen: Function
@@ -12,79 +15,86 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	isAuthModalOpen,
 	setIsAuthModalOpen,
 }: IAuthModalProps) => {
-	const telInputRef = useRef<HTMLInputElement>(null)
 	const modalBgRef = useRef<HTMLDivElement>(null)
 	const submitBtnRef = useRef<HTMLInputElement>(null)
 
-	const [telArray, setTelArray] = useState<Array<string>>(['+998-'])
+	const [value, setValue] = useState('+998')
+	const [isValid, setIsValid] = useState(false)
 
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
 	}
 
-	useEffect(() => {
-		window.addEventListener('wheel', (e): void => {
-			if (e.ctrlKey) e.preventDefault()
-		})
+	const blockZoomInHandler = (e: any): void => {
+		if (e.ctrlKey) e.preventDefault()
+	}
 
+	useEffect(() => {
+		const rootElem = document.querySelector('#root')
 		if (isAuthModalOpen) {
+			if (rootElem) rootElem.addEventListener('wheel', blockZoomInHandler)
 			document.body.style.overflow = 'hidden'
 		} else {
+			if (rootElem) rootElem.removeEventListener('wheel', blockZoomInHandler)
 			document.body.style.overflow = ''
 		}
+
+		// setIsValid(isValidPhoneNumber(value))
 	})
 
-	const phoneNumberInputHandler = (event: KeyboardEvent) => {
-		if (telInputRef.current) {
-			const updatedTelArray = [...telArray]
-			if (event.key === 'Backspace' && telArray.length > 1) {
-				updatedTelArray.pop()
-				setTelArray(updatedTelArray)
-				return
-			}
+	// const phoneNumberInputHandler = (event: KeyboardEvent) => {
+	// 	if (telInputRef.current) {
+	// 		const updatedTelArray = [...telArray]
 
-			if (event.key === 'Backspace' && telArray.length === 1) {
-				event.preventDefault()
-				return
-			}
+	// 		if (/\d/.test(event.key)) {
+	// 			if (
+	// 				updatedTelArray.length === 2 ||
+	// 				updatedTelArray.length === 5 ||
+	// 				updatedTelArray.length === 7
+	// 			) {
+	// 				updatedTelArray.push(event.key.concat('-'))
+	// 				setTelArray(updatedTelArray)
+	// 			} else {
+	// 				updatedTelArray.push(event.key)
+	// 				setTelArray(updatedTelArray)
+	// 			}
+	// 		}
 
-			if (updatedTelArray.length === 11) {
-				event.preventDefault()
-				return
-			}
+	// 		if (updatedTelArray.length === 10) {
+	// 			event.preventDefault()
+	// 			return
+	// 		}
 
-			if (/\d/.test(event.key)) {
-				if (
-					updatedTelArray.length === 2 ||
-					updatedTelArray.length === 5 ||
-					updatedTelArray.length === 7
-				) {
-					updatedTelArray.push(event.key.concat('-'))
-					setTelArray(updatedTelArray)
-					telInputRef.current.value = telArray.join('')
-				} else {
-					updatedTelArray.push(event.key)
-					setTelArray(updatedTelArray)
-					telInputRef.current.value = telArray.join('')
-				}
-			}
+	// 		if (event.key === 'Backspace' && telArray.length > 1) {
+	// 			updatedTelArray.pop()
+	// 			setTelArray(updatedTelArray)
+	// 		}
 
-			if (/\D/.test(event.key)) {
-				if (event.key !== 'Backspace') {
-					event.preventDefault()
-				}
-			}
+	// 		if (event.key === 'Backspace' && telArray.length === 1) {
+	// 			setTelArray(['+998-'])
+	// 			telInputRef.current.value = telArray.join('')
+	// 		}
 
-			if (telInputRef.current?.value.length === 17) {
-				if (submitBtnRef.current) {
-					submitBtnRef.current.disabled = false
-				}
-			} else {
-				// @ts-ignore
-				submitBtnRef.current.disabled = true
-			}
-		}
-	}
+	// 		if (/\D/.test(event.key)) {
+	// 			if (event.key !== 'Backspace') {
+	// 				event.preventDefault()
+	// 			}
+	// 		}
+
+	// 		if (telInputRef.current?.value.length === 17) {
+	// 			if (submitBtnRef.current) {
+	// 				submitBtnRef.current.disabled = false
+	// 			}
+	// 		} else {
+	// 			// @ts-ignore
+	// 			submitBtnRef.current.disabled = true
+	// 		}
+
+	// 		console.log(updatedTelArray)
+
+	// 		telInputRef.current.value = telArray.join('')
+	// 	}
+	// }
 
 	return (
 		<>
@@ -107,38 +117,38 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 				</p>
 				<form action='#' className={styles.modalForm}>
 					<div className={styles.modalFormContainer}>
-						<div className={styles.countrySelectButtonContainer}>
-							<label>
+						<div className={styles.inputLabels}>
+							<label htmlFor=''>
 								<span className={styles.labelText}>Страна</span>
-								<button type='button' className={styles.countrySelectButton}>
+
+								{/* <button type='button' className={styles.countrySelectButton}>
 									Uzb
-								</button>
+								</button> */}
+							</label>
+							<label htmlFor=''>
+								<span className={styles.labelText}>Номер телефона</span>
 							</label>
 						</div>
 						<div className={styles.telInputContainer}>
 							<label>
-								<span className={styles.labelText}>Номер телефона</span>
-								<input
-									type='tel'
-									onKeyDown={e => {
-										// @ts-ignore
-										phoneNumberInputHandler(e)
-									}}
-									placeholder='+998 99-999-99-99'
-									maxLength={13}
-									minLength={13}
-									className={styles.telInput}
-									ref={telInputRef}
+								{/* <span className={styles.labelText}>Номер телефона</span> */}
+								<PhoneInput
+									placeholder='Enter phone number'
+									value={value}
+									// @ts-ignore
+									onChange={setValue}
+									defaultCountry='UZ'
+									limitMaxLength
 								/>
 							</label>
 						</div>
 					</div>
 					<input
-						type='submit'
+						type='button'
 						value='Выслать код'
 						className={styles.submitButton}
 						ref={submitBtnRef}
-						disabled
+						disabled={!isValid}
 					/>
 				</form>
 			</div>

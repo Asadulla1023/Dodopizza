@@ -83,7 +83,7 @@
 		justify-content: space-between;
 		height: 100%;
 		&Container {
-			display: flex;
+			// display: flex;
 			label {
 				display: flex;
 				flex-direction: column;
@@ -119,14 +119,6 @@
 }
 
 .countrySelectButton {
-	width: 101px;
-	height: 56px;
-	border-radius: 12px;
-	padding: 0 20px 0 16px;
-	background-color: #fff;
-	border: 1px solid rgb(226, 226, 233);
-	font-family: inherit;
-	text-transform: uppercase;
 	&Container {
 		margin-right: 8px;
 	}
@@ -141,9 +133,16 @@
 	font-family: inherit;
 	border-radius: 9999px;
 	border: 0;
+	background-color: #ff6900;
+	color: #fff;
 	&:disabled {
 		color: rgb(171, 173, 186);
-		background-color: rgb(226, 226, 233);
+		background-color: #e2e2e9;
 		cursor: not-allowed;
 	}
+}
+
+.inputLabels {
+	display: flex;
+	gap: 70px;
 }
