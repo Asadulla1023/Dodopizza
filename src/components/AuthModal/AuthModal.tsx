@@ -3,8 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 // @ts-ignore
 import styles from './AuthModal.module.scss'
 
-import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input'
-import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-input-2'
+import axios from 'axios'
 
 export interface IAuthModalProps {
 	isAuthModalOpen: boolean
@@ -19,7 +19,6 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	const submitBtnRef = useRef<HTMLInputElement>(null)
 
 	const [value, setValue] = useState('+998')
-	const [isValid, setIsValid] = useState(false)
 
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
@@ -27,6 +26,13 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 
 	const blockZoomInHandler = (e: any): void => {
 		if (e.ctrlKey) e.preventDefault()
+	}
+
+	const isTelValid = (tel: string): boolean => {
+		if (tel.length === 12 && tel.startsWith('998')) {
+			return true
+		}
+		return false
 	}
 
 	useEffect(() => {
@@ -39,62 +45,14 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 			document.body.style.overflow = ''
 		}
 
-		// setIsValid(isValidPhoneNumber(value))
+		if (submitBtnRef.current) {
+			if (isTelValid(value)) {
+				submitBtnRef.current.disabled = false
+			} else {
+				submitBtnRef.current.disabled = true
+			}
+		}
 	})
-
-	// const phoneNumberInputHandler = (event: KeyboardEvent) => {
-	// 	if (telInputRef.current) {
-	// 		const updatedTelArray = [...telArray]
-
-	// 		if (/\d/.test(event.key)) {
-	// 			if (
-	// 				updatedTelArray.length === 2 ||
-	// 				updatedTelArray.length === 5 ||
-	// 				updatedTelArray.length === 7
-	// 			) {
-	// 				updatedTelArray.push(event.key.concat('-'))
-	// 				setTelArray(updatedTelArray)
-	// 			} else {
-	// 				updatedTelArray.push(event.key)
-	// 				setTelArray(updatedTelArray)
-	// 			}
-	// 		}
-
-	// 		if (updatedTelArray.length === 10) {
-	// 			event.preventDefault()
-	// 			return
-	// 		}
-
-	// 		if (event.key === 'Backspace' && telArray.length > 1) {
-	// 			updatedTelArray.pop()
-	// 			setTelArray(updatedTelArray)
-	// 		}
-
-	// 		if (event.key === 'Backspace' && telArray.length === 1) {
-	// 			setTelArray(['+998-'])
-	// 			telInputRef.current.value = telArray.join('')
-	// 		}
-
-	// 		if (/\D/.test(event.key)) {
-	// 			if (event.key !== 'Backspace') {
-	// 				event.preventDefault()
-	// 			}
-	// 		}
-
-	// 		if (telInputRef.current?.value.length === 17) {
-	// 			if (submitBtnRef.current) {
-	// 				submitBtnRef.current.disabled = false
-	// 			}
-	// 		} else {
-	// 			// @ts-ignore
-	// 			submitBtnRef.current.disabled = true
-	// 		}
-
-	// 		console.log(updatedTelArray)
-
-	// 		telInputRef.current.value = telArray.join('')
-	// 	}
-	// }
 
 	return (
 		<>
@@ -119,26 +77,18 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 					<div className={styles.modalFormContainer}>
 						<div className={styles.inputLabels}>
 							<label htmlFor=''>
-								<span className={styles.labelText}>Страна</span>
-
-								{/* <button type='button' className={styles.countrySelectButton}>
-									Uzb
-								</button> */}
-							</label>
-							<label htmlFor=''>
 								<span className={styles.labelText}>Номер телефона</span>
 							</label>
 						</div>
 						<div className={styles.telInputContainer}>
 							<label>
-								{/* <span className={styles.labelText}>Номер телефона</span> */}
 								<PhoneInput
-									placeholder='Enter phone number'
+									placeholder='+998-99-999-99-99'
 									value={value}
-									// @ts-ignore
 									onChange={setValue}
-									defaultCountry='UZ'
-									limitMaxLength
+									country='uz'
+									masks={{ uz: '..-...-..-..' }}
+									isValid={isTelValid}
 								/>
 							</label>
 						</div>
@@ -148,7 +98,15 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 						value='Выслать код'
 						className={styles.submitButton}
 						ref={submitBtnRef}
-						disabled={!isValid}
+						onClick={(e): void => {
+							e.preventDefault()
+							axios
+								.post('http://localhost:8002', { tel: value })
+								.then(() => {})
+								.catch(err => {
+									console.log(err)
+								})
+						}}
 					/>
 				</form>
 			</div>
