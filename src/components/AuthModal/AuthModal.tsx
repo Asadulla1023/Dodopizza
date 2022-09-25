@@ -1,7 +1,10 @@
 import classNames from 'classnames'
-import { FormEvent, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 // @ts-ignore
 import styles from './AuthModal.module.scss'
+
+import PhoneInput from 'react-phone-input-2'
+import axios from 'axios'
 
 export interface IAuthModalProps {
 	isAuthModalOpen: boolean
@@ -12,33 +15,44 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	isAuthModalOpen,
 	setIsAuthModalOpen,
 }: IAuthModalProps) => {
-	const telInputRef = useRef<HTMLInputElement>(null)
+	const modalBgRef = useRef<HTMLDivElement>(null)
+	const submitBtnRef = useRef<HTMLInputElement>(null)
+
+	const [value, setValue] = useState('+998')
 
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
 	}
 
-	const phoneNumberInputHandler = (event: KeyboardEvent) => {
-		if (telInputRef.current) {
-			// @ts-ignore
-			if (telInputRef.current.value.length <= 4) {
-				telInputRef.current.value = '+998'
-			}
-
-			if (telInputRef.current.value.length === 13) {
-				if (event.key !== 'Backspace') {
-					event.preventDefault()
-				}
-			}
-		}
-
-		// @ts-ignore
-		if (/\D/.test(event.key)) {
-			if (event.key !== 'Backspace') {
-				event.preventDefault()
-			}
-		}
+	const blockZoomInHandler = (e: any): void => {
+		if (e.ctrlKey) e.preventDefault()
 	}
+
+	const isTelValid = (tel: string): boolean => {
+		if (tel.length === 12 && tel.startsWith('998')) {
+			return true
+		}
+		return false
+	}
+
+	useEffect(() => {
+		const rootElem = document.querySelector('#root')
+		if (isAuthModalOpen) {
+			if (rootElem) rootElem.addEventListener('wheel', blockZoomInHandler)
+			document.body.style.overflow = 'hidden'
+		} else {
+			if (rootElem) rootElem.removeEventListener('wheel', blockZoomInHandler)
+			document.body.style.overflow = ''
+		}
+
+		if (submitBtnRef.current) {
+			if (isTelValid(value)) {
+				submitBtnRef.current.disabled = false
+			} else {
+				submitBtnRef.current.disabled = true
+			}
+		}
+	})
 
 	return (
 		<>
@@ -61,39 +75,46 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 				</p>
 				<form action='#' className={styles.modalForm}>
 					<div className={styles.modalFormContainer}>
-						<div className={styles.countrySelectButtonContainer}>
-							<label>
-								<span className={styles.labelText}>Страна</span>
-								<button type='button' className={styles.countrySelectButton}>
-									Uzb
-								</button>
+						<div className={styles.inputLabels}>
+							<label htmlFor=''>
+								<span className={styles.labelText}>Номер телефона</span>
 							</label>
 						</div>
 						<div className={styles.telInputContainer}>
 							<label>
-								<span className={styles.labelText}>Номер телефона</span>
-								<input
-									type='tel'
-									onKeyDown={e => {
-										// @ts-ignore
-										phoneNumberInputHandler(e)
-									}}
-									placeholder='+998 99-999-99-99'
-									className={styles.telInput}
-									ref={telInputRef}
+								<PhoneInput
+									placeholder='+998-99-999-99-99'
+									value={value}
+									onChange={setValue}
+									country='uz'
+									masks={{ uz: '..-...-..-..' }}
+									isValid={isTelValid}
 								/>
 							</label>
 						</div>
 					</div>
 					<input
-						type='submit'
+						type='button'
 						value='Выслать код'
 						className={styles.submitButton}
-						disabled
+						ref={submitBtnRef}
+						onClick={(e): void => {
+							e.preventDefault()
+							axios
+								.post('http://localhost:8002', { tel: value })
+								.then(() => {})
+								.catch(err => {
+									console.log(err)
+								})
+						}}
 					/>
 				</form>
 			</div>
-			<div className={styles.modalBg} />
+			<div
+				className={styles.modalBg}
+				ref={modalBgRef}
+				onClick={modalCloseHandler}
+			/>
 		</>
 	)
 }
