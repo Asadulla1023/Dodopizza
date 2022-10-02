@@ -1,14 +1,20 @@
 const express = require('express')
 const cors = require('cors')
+const otpGenerator = require('otp-generator')
 
 const server = express()
-const PORT = 8002
+const PORT = 8003
 
 server.use(cors())
 server.use(express.json())
 
-server.post('/', (req, res) => {
-	console.log(req.body)
+server.post('/auth', (req, res) => {
+	const otp = otpGenerator.generate(4, {
+		upperCaseAlphabets: false,
+		lowerCaseAlphabets: false,
+		specialChars: false,
+	})
+	console.log(req.body.tel, otp)
 })
 
 server.listen(PORT, () => {

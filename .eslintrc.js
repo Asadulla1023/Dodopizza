@@ -41,6 +41,7 @@ module.exports = {
 		'jsx-a11y/control-has-associated-label': 0,
 		'no-unused-vars': 1,
 		'jsx-a11y/no-static-element-interactions': 0,
+		'jsx-a11y/tabindex-no-positive': 0,
 	},
 	settings: {
 		'import/ignore': ['.css$', 'node_modules/*'],

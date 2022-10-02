@@ -4,7 +4,11 @@ import { useState, useEffect, useRef } from 'react'
 import styles from './AuthModal.module.scss'
 
 import PhoneInput from 'react-phone-input-2'
+import { PatternFormat } from 'react-number-format'
+
 import axios from 'axios'
+import { doc } from 'prettier'
+import { setTimeout } from 'timers/promises'
 
 export interface IAuthModalProps {
 	isAuthModalOpen: boolean
@@ -20,6 +24,8 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 
 	const [value, setValue] = useState('+998')
 
+	const [modalState, setModalState] = useState<number>(1)
+
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
 	}
@@ -33,6 +39,48 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 			return true
 		}
 		return false
+	}
+
+	const pressArrowLeftHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		const input = e.target as HTMLInputElement
+		if (input && input.previousElementSibling) {
+			const nextInput = input.previousElementSibling as HTMLInputElement
+			input.blur()
+			nextInput.focus()
+		}
+	}
+
+	const pressArrowRightHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		const input = e.target as HTMLInputElement
+		if (input && input.nextElementSibling) {
+			const nextInput = input.nextElementSibling as HTMLInputElement
+			input.blur()
+			nextInput.focus()
+		}
+	}
+
+	const OTPCodeInputHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Tab') {
+			e.preventDefault()
+		}
+
+		if (e.key === 'ArrowLeft') {
+			pressArrowLeftHandler(e)
+		} else if (e.key === 'ArrowRight' || e.key === 'Tab') {
+			pressArrowRightHandler(e)
+		} else if (e.key === 'Backspace') {
+			const input = e.target as HTMLInputElement
+			if (input.value) {
+				input.value = ''
+			} else {
+				pressArrowLeftHandler(e)
+			}
+		} else if (/\d/.test(e.key) && e.key !== 'e') {
+			const input = e.target as HTMLInputElement
+			if (input.value.length === 1) pressArrowRightHandler(e)
+		} else {
+			e.preventDefault()
+		}
 	}
 
 	useEffect(() => {
@@ -65,50 +113,106 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 					className={styles.modalClose}
 					type='button'
 					onClick={modalCloseHandler}
+					tabIndex={-1}
 				>
 					<img src='modal_close.svg' alt='Close button' />
 				</button>
 				<h2 className={styles.modalTitle}>Вход на сайт</h2>
-				<p className={styles.modalDescription}>
-					Подарим подарок на день рождения, сохраним адрес доставки и расскажем об
-					акциях
-				</p>
-				<form action='#' className={styles.modalForm}>
-					<div className={styles.modalFormContainer}>
-						<div className={styles.inputLabels}>
-							<label htmlFor=''>
-								<span className={styles.labelText}>Номер телефона</span>
-							</label>
+				{modalState === 1 ? (
+					<>
+						<p className={styles.modalDescription}>
+							Подарим подарок на день рождения, сохраним адрес доставки и расскажем об
+							акциях
+						</p>
+						<form action='#' className={styles.modalForm}>
+							<div className={styles.modalFormContainer}>
+								<div className={styles.inputLabels}>
+									<label htmlFor=''>
+										<span className={styles.labelText}>Номер телефона</span>
+									</label>
+								</div>
+								<div className={styles.telInputContainer}>
+									<label>
+										<PhoneInput
+											placeholder='+998-99-999-99-99'
+											value={value}
+											onChange={setValue}
+											country='uz'
+											masks={{ uz: '..-...-..-..' }}
+											isValid={isTelValid}
+										/>
+									</label>
+								</div>
+							</div>
+							<input
+								type='button'
+								value='Выслать код'
+								className={styles.submitButton}
+								ref={submitBtnRef}
+								onClick={(e): void => {
+									e.preventDefault()
+									axios
+										.post('http://localhost:8002', { tel: value })
+										.then(() => {})
+										.catch(err => {
+											console.log(err)
+										})
+									setModalState(2)
+								}}
+							/>
+						</form>
+					</>
+				) : (
+					<>
+						<p
+							className={classNames(styles.modalDescription, styles.shortDescription)}
+						>
+							Код отправили сообщением на
+						</p>
+						<div className={styles.formattedTel}>
+							<PatternFormat value={value} format='+### ## ### ## ##' tabIndex={-1} />
+							<span
+								className={styles.ghostButton}
+								onClick={() => {
+									setModalState(1)
+								}}
+							>
+								Изменить
+							</span>
 						</div>
-						<div className={styles.telInputContainer}>
-							<label>
-								<PhoneInput
-									placeholder='+998-99-999-99-99'
-									value={value}
-									onChange={setValue}
-									country='uz'
-									masks={{ uz: '..-...-..-..' }}
-									isValid={isTelValid}
-								/>
-							</label>
+						<div className={styles.otpCodeInputs}>
+							{[1, 1, 1, 1].map(() => {
+								return (
+									<input
+										type='tel'
+										pattern='[0-9]*'
+										maxLength={1}
+										onKeyDown={e => {
+											OTPCodeInputHandler(e)
+										}}
+										tabIndex={1}
+									/>
+								)
+							})}
 						</div>
-					</div>
-					<input
-						type='button'
-						value='Выслать код'
-						className={styles.submitButton}
-						ref={submitBtnRef}
-						onClick={(e): void => {
-							e.preventDefault()
-							axios
-								.post('http://localhost:8002', { tel: value })
-								.then(() => {})
-								.catch(err => {
-									console.log(err)
-								})
-						}}
-					/>
-				</form>
+						<input
+							type='button'
+							value='Получить новый код'
+							className={styles.submitButton}
+							ref={submitBtnRef}
+							onClick={(e): void => {
+								e.preventDefault()
+								axios
+									.post('http://localhost:8002', { tel: value })
+									.then(() => {})
+									.catch(err => {
+										console.log(err)
+									})
+								setModalState(2)
+							}}
+						/>
+					</>
+				)}
 			</div>
 			<div
 				className={styles.modalBg}
