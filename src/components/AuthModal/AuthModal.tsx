@@ -7,8 +7,6 @@ import PhoneInput from 'react-phone-input-2'
 import { PatternFormat } from 'react-number-format'
 
 import axios from 'axios'
-import { doc } from 'prettier'
-import { setTimeout } from 'timers/promises'
 
 export interface IAuthModalProps {
 	isAuthModalOpen: boolean
