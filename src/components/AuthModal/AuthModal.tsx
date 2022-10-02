@@ -19,13 +19,16 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 }: IAuthModalProps) => {
 	const modalBgRef = useRef<HTMLDivElement>(null)
 	const submitBtnRef = useRef<HTMLInputElement>(null)
+	const otpBtnRef = useRef<HTMLInputElement>(null)
 
-	const [value, setValue] = useState('+998')
-
+	const [value, setValue] = useState<string>('+998')
 	const [modalState, setModalState] = useState<number>(1)
+	const [timer, setTimer] = useState<number>(5)
 
 	const modalCloseHandler = (): void => {
 		setIsAuthModalOpen(false)
+		setTimer(0)
+		setModalState(1)
 	}
 
 	const blockZoomInHandler = (e: any): void => {
@@ -100,6 +103,23 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 		}
 	})
 
+	const clickOptButtonHandler = () => {
+		if (otpBtnRef.current) {
+			otpBtnRef.current.disabled = true
+			if (timer > 0) {
+				setTimeout(() => {
+					setTimer(timer - 1)
+				}, 1000)
+			} else {
+				otpBtnRef.current.disabled = false
+			}
+		}
+	}
+
+	useEffect(() => {
+		clickOptButtonHandler()
+	})
+
 	return (
 		<>
 			<div
@@ -149,13 +169,10 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 								ref={submitBtnRef}
 								onClick={(e): void => {
 									e.preventDefault()
-									axios
-										.post('http://localhost:8002', { tel: value })
-										.then(() => {})
-										.catch(err => {
-											console.log(err)
-										})
+									axios.post('http://localhost:8002', { tel: value })
 									setModalState(2)
+									setTimer(10)
+									clickOptButtonHandler()
 								}}
 							/>
 						</form>
@@ -173,6 +190,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 								className={styles.ghostButton}
 								onClick={() => {
 									setModalState(1)
+									setTimer(0)
 								}}
 							>
 								Изменить
@@ -195,18 +213,18 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 						</div>
 						<input
 							type='button'
-							value='Получить новый код'
+							value={
+								timer !== 0
+									? `Получить новый код через ${timer} сек.`
+									: 'Получить новый код'
+							}
 							className={styles.submitButton}
-							ref={submitBtnRef}
+							ref={otpBtnRef}
 							onClick={(e): void => {
 								e.preventDefault()
-								axios
-									.post('http://localhost:8002', { tel: value })
-									.then(() => {})
-									.catch(err => {
-										console.log(err)
-									})
-								setModalState(2)
+								axios.post('http://localhost:8002', { tel: value }).catch(err => {})
+								setTimer(10)
+								clickOptButtonHandler()
 							}}
 						/>
 					</>

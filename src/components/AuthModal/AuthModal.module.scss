@@ -111,11 +111,6 @@
 	background-color: #ff6900;
 	color: #fff;
 	transition: background-color 200ms ease-out, color 200ms ease-out;
-	&:disabled {
-		color: rgb(171, 173, 186);
-		background-color: #e2e2e9;
-		cursor: not-allowed;
-	}
 
 	&:hover {
 		background-color: #e86100;
@@ -125,6 +120,12 @@
 	&:active {
 		background-color: #ff6900;
 		color: #ffa566;
+	}
+
+	&:disabled {
+		color: rgb(171, 173, 186);
+		background-color: #e2e2e9;
+		cursor: not-allowed;
 	}
 }
 
