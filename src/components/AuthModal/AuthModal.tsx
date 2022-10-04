@@ -78,7 +78,17 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 			}
 		} else if (/\d/.test(e.key) && e.key !== 'e') {
 			const input = e.target as HTMLInputElement
-			if (input.value.length === 1) pressArrowRightHandler(e)
+			const nextInput = input.nextElementSibling as HTMLInputElement
+
+			if (input.value.length === 1) {
+				input.value = e.key
+			}
+
+			if (nextInput) {
+				setTimeout(() => {
+					nextInput.focus()
+				}, 0)
+			}
 		} else {
 			e.preventDefault()
 		}
@@ -103,7 +113,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 		}
 	})
 
-	const clickOptButtonHandler = () => {
+	const clickOTPButtonHandler = () => {
 		if (otpBtnRef.current) {
 			otpBtnRef.current.disabled = true
 			if (timer > 0) {
@@ -117,8 +127,15 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 	}
 
 	useEffect(() => {
-		clickOptButtonHandler()
+		clickOTPButtonHandler()
 	})
+
+	useEffect(() => {
+		const firstOTPInput = document.querySelector(
+			'input[type="tel"]'
+		) as HTMLInputElement
+		firstOTPInput.focus()
+	}, [modalState])
 
 	return (
 		<>
@@ -172,7 +189,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 									axios.post('http://localhost:8002', { tel: value })
 									setModalState(2)
 									setTimer(10)
-									clickOptButtonHandler()
+									clickOTPButtonHandler()
 								}}
 							/>
 						</form>
@@ -206,6 +223,11 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 										onKeyDown={e => {
 											OTPCodeInputHandler(e)
 										}}
+										onChange={(e): void => {
+											if (/\D/.test(e.target.value)) {
+												e.target.value = ''
+											}
+										}}
 										tabIndex={1}
 									/>
 								)
@@ -224,7 +246,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 								e.preventDefault()
 								axios.post('http://localhost:8002', { tel: value }).catch(err => {})
 								setTimer(10)
-								clickOptButtonHandler()
+								clickOTPButtonHandler()
 							}}
 						/>
 					</>
