@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { useRef } from 'react'
+import { useRef, MouseEvent, Ref, RefObject } from 'react'
+import { capitalize } from 'utils'
 // @ts-ignore
 import styles from './Modal.module.scss'
 
@@ -13,9 +14,21 @@ export const Modal: React.FC<IModalProps> = ({
 	setIsModalOpen,
 }: IModalProps) => {
 	const smallSliderRef = useRef<HTMLDivElement>(null)
+	const largeSliderRef = useRef<HTMLDivElement>(null)
 
 	const modalCloseHandler = (): void => {
 		setIsModalOpen(false)
+	}
+
+	const sliderClickHandler = (
+		e: MouseEvent<HTMLDivElement>,
+		ref: RefObject<HTMLDivElement>
+	) => {
+		const reference = ref
+		if (e.currentTarget.dataset.offset && reference.current) {
+			reference.current.style.transform = `translate(calc(100% * ${+e.currentTarget
+				.dataset.offset}))`
+		}
 	}
 
 	return (
@@ -29,6 +42,7 @@ export const Modal: React.FC<IModalProps> = ({
 					className={styles.modalClose}
 					type='button'
 					onClick={modalCloseHandler}
+					tabIndex={-1}
 				>
 					<img src='modal_close.svg' alt='Close button' />
 				</button>
@@ -48,71 +62,53 @@ export const Modal: React.FC<IModalProps> = ({
 						<ul
 							className={classNames(styles.modalIngredientList, styles.ingredientList)}
 						>
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>Базилик</span>
-							</li>
-							,
-							<li className={styles.ingredientListItem} data-optional='false'>
-								<span>томатный соус</span>
-							</li>
-							,
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>кубики брынзы</span>
-							</li>
-							,
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>шампиньоны</span>
-							</li>
-							,
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>сладкий перец</span>
-							</li>
-							,
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>красный лук</span>
-							</li>
-							,
-							<li className={styles.ingredientListItem} data-optional='false'>
-								<span>моцарелла</span>
-							</li>
-							,
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>маслины</span>
-							</li>
-							,
-							<li
-								className={styles.ingredientListItem}
-								data-optional='true'
-								data-removed='false'
-							>
-								<span>томаты</span>
-							</li>
+							{[
+								{
+									title: 'базилик1',
+									'data-optional': true,
+								},
+								{
+									title: 'базилик2',
+									'data-optional': true,
+								},
+								{
+									title: 'базилик3',
+									'data-optional': false,
+								},
+								{
+									title: 'базилик4',
+									'data-optional': false,
+								},
+								{
+									title: 'базилик5',
+									'data-optional': true,
+								},
+								{
+									title: 'базилик6',
+									'data-optional': false,
+								},
+							].map((indredient, index, arr) => {
+								return (
+									<>
+										<li
+											className={styles.ingredientListItem}
+											data-optional={indredient['data-optional']}
+											data-removed='false'
+											onClick={e => {
+												if (e.currentTarget) {
+													e.currentTarget.dataset.removed = 'true'
+												}
+											}}
+										>
+											<span>
+												{!index ? capitalize(indredient.title) : indredient.title}
+											</span>
+										</li>
+										{arr.length - 1 !== index && ','}
+									</>
+								)
+							})}
 						</ul>
-
 						<div className={classNames(styles.modalSliderBtn, styles.sliderBtn)}>
 							<div
 								className={classNames(
@@ -120,14 +116,17 @@ export const Modal: React.FC<IModalProps> = ({
 									styles.sliderBtnSliderSmall
 								)}
 								style={{ transform: 'translateX(100%)' }}
+								ref={largeSliderRef}
 							/>
 							{['Маленькая', 'Средняя', 'Большая'].map((text, index) => {
 								return (
 									<div
 										className={styles.sliderBtnItem}
 										data-offset={index}
-										onClick={() => {}}
 										key={text}
+										onClick={e => {
+											sliderClickHandler(e, largeSliderRef)
+										}}
 									>
 										<label>
 											<span>{text}</span>
@@ -153,10 +152,7 @@ export const Modal: React.FC<IModalProps> = ({
 										data-offset={index}
 										key={text}
 										onClick={e => {
-											if (e.currentTarget.dataset.offset && smallSliderRef.current) {
-												smallSliderRef.current.style.transform = `translate(calc(100% * ${+e
-													.currentTarget.dataset.offset}))`
-											}
+											sliderClickHandler(e, smallSliderRef)
 										}}
 									>
 										<label>
@@ -207,7 +203,7 @@ export const Modal: React.FC<IModalProps> = ({
 						</div>
 					</div>
 
-					<button className={styles.modalCardBtn} type='button'>
+					<button className={styles.modalCardBtn} type='button' tabIndex={-1}>
 						Добавить в корзину за 85 000 сум
 					</button>
 				</div>

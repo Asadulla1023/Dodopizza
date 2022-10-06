@@ -979,7 +979,7 @@
 }
 
 .react-tel-input .form-control:focus {
-	border-color: rgb(255, 105, 0);
+	border-color: #ff6900;
 }
 
 /* .react-tel-input .form-control.invalid-number {

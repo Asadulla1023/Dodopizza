@@ -153,6 +153,28 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 		}
 	}, [modalState])
 
+	useEffect(() => {
+		const telInput = document.querySelector(
+			'.react-tel-input input'
+		) as HTMLInputElement
+
+		if (modalState === 2) telInput.tabIndex = 1
+		else telInput.tabIndex = -1
+	}, [isAuthModalOpen])
+
+	useEffect(() => {
+		const telInput = document.querySelector(
+			'.react-tel-input input'
+		) as HTMLInputElement
+		if (
+			telInput &&
+			telInput.parentElement &&
+			telInput === document.activeElement
+		) {
+			telInput.parentElement.style.borderColor = '#ff6900'
+		}
+	})
+
 	return (
 		<>
 			<div
@@ -178,7 +200,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 						<form action='#' className={styles.modalForm}>
 							<div className={styles.modalFormContainer}>
 								<div className={styles.inputLabels}>
-									<label htmlFor=''>
+									<label>
 										<span className={styles.labelText}>Номер телефона</span>
 									</label>
 								</div>
@@ -190,7 +212,6 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 											onChange={setValue}
 											country='uz'
 											masks={{ uz: '..-...-..-..' }}
-											isValid={isTelValid}
 										/>
 									</label>
 								</div>
@@ -200,6 +221,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 								value='Выслать код'
 								className={styles.submitButton}
 								ref={submitBtnRef}
+								tabIndex={-1}
 								onClick={(e): void => {
 									e.preventDefault()
 									axios.post('http://localhost:8003/auth', { tel: value })
@@ -268,6 +290,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 								setTimer(10)
 								clickOTPButtonHandler()
 							}}
+							tabIndex={-1}
 						/>
 					</>
 				)}
