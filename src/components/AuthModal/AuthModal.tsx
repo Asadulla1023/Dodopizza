@@ -128,13 +128,29 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 
 	useEffect(() => {
 		clickOTPButtonHandler()
+		const OTPInputs = document.querySelectorAll(
+			'[data-name="OTPInput"]'
+		) as NodeListOf<HTMLInputElement>
+
+		const values: string[] = []
+		OTPInputs.forEach((OTPInput: HTMLInputElement) => {
+			if (OTPInput.value) {
+				values.push(OTPInput.value)
+			}
+		})
+
+		if (values.length === 4) {
+			axios.post('http://localhost:8003/auth/otpcheck', { code: values.join('') })
+		}
 	})
 
 	useEffect(() => {
 		const firstOTPInput = document.querySelector(
-			'input[type="tel"]'
+			'[data-name="OTPInput"]'
 		) as HTMLInputElement
-		firstOTPInput.focus()
+		if (firstOTPInput) {
+			firstOTPInput.focus()
+		}
 	}, [modalState])
 
 	return (
@@ -186,7 +202,7 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 								ref={submitBtnRef}
 								onClick={(e): void => {
 									e.preventDefault()
-									axios.post('http://localhost:8002', { tel: value })
+									axios.post('http://localhost:8003/auth', { tel: value })
 									setModalState(2)
 									setTimer(10)
 									clickOTPButtonHandler()
@@ -214,11 +230,12 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 							</span>
 						</div>
 						<div className={styles.otpCodeInputs}>
-							{[1, 1, 1, 1].map(() => {
+							{[1, 2, 3, 4].map(id => {
 								return (
 									<input
 										type='tel'
 										pattern='[0-9]*'
+										className={styles.OTPInput}
 										maxLength={1}
 										onKeyDown={e => {
 											OTPCodeInputHandler(e)
@@ -229,6 +246,8 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 											}
 										}}
 										tabIndex={1}
+										key={id}
+										data-name='OTPInput'
 									/>
 								)
 							})}
@@ -244,7 +263,8 @@ export const AuthModal: React.FC<IAuthModalProps> = ({
 							ref={otpBtnRef}
 							onClick={(e): void => {
 								e.preventDefault()
-								axios.post('http://localhost:8002', { tel: value }).catch(err => {})
+								axios.post('http://localhost:8003/auth', { tel: value })
+
 								setTimer(10)
 								clickOTPButtonHandler()
 							}}

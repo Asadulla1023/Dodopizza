@@ -17,6 +17,10 @@ server.post('/auth', (req, res) => {
 	console.log(req.body.tel, otp)
 })
 
+server.post('/auth/otpcheck', (req, res) => {
+	console.log(req.body.code)
+})
+
 server.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`)
 })
