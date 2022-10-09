@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useRef, MouseEvent, Ref, RefObject } from 'react'
+import { useRef, MouseEvent, RefObject, useEffect } from 'react'
 import { capitalize } from 'utils'
 // @ts-ignore
 import styles from './Modal.module.scss'
@@ -19,6 +19,14 @@ export const Modal: React.FC<IModalProps> = ({
 	const modalCloseHandler = (): void => {
 		setIsModalOpen(false)
 	}
+
+	useEffect(() => {
+		if (isModalOpen) {
+			document.body.style.overflow = 'hidden'
+		} else {
+			document.body.style.overflow = ''
+		}
+	})
 
 	const sliderClickHandler = (
 		e: MouseEvent<HTMLDivElement>,
@@ -46,7 +54,7 @@ export const Modal: React.FC<IModalProps> = ({
 				>
 					<img src='modal_close.svg' alt='Close button' />
 				</button>
-				<div className={styles.modalLeft} />
+				<div className={styles.modalLeft}>Hello</div>
 				<div className={styles.modalRight}>
 					<div className={styles.modalScroll}>
 						<h4 className={styles.modalTitle}>Овощи и грибы</h4>
@@ -95,8 +103,14 @@ export const Modal: React.FC<IModalProps> = ({
 											data-optional={indredient['data-optional']}
 											data-removed='false'
 											onClick={e => {
-												if (e.currentTarget) {
-													e.currentTarget.dataset.removed = 'true'
+												if (
+													e.currentTarget &&
+													e.currentTarget.dataset.removed &&
+													e.currentTarget.dataset.optional === 'true'
+												) {
+													e.currentTarget.dataset.removed = String(
+														!JSON.parse(e.currentTarget.dataset.removed)
+													)
 												}
 											}}
 										>

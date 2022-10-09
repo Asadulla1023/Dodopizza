@@ -34,6 +34,11 @@
 	transition: color 250ms;
 }
 
+.menu_list_item_link:focus {
+	color: #ff6900;
+	outline: none;
+}
+
 .menu_list_item_link:hover {
 	color: #ff6900;
 }

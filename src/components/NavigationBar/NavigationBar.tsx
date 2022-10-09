@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { NAVBAR_CONFIG } from '../../constants'
 // @ts-ignore
-import styles from './NavigationBar.module.css'
+import styles from './NavigationBar.module.scss'
 
 export const NavigationBar: React.FC = () => (
 	<div className={styles.header_nav_menu}>

@@ -1,4 +1,4 @@
-import { Banner, NavigationBar, Container, Footer, AuthModal } from 'components'
+import { NavigationBar, Container, Footer, AuthModal, Banner } from 'components'
 import { AboutPage } from 'pages/AboutPage'
 import { HomePage } from 'pages/HomePage'
 import { useState } from 'react'

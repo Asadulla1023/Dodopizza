@@ -55,17 +55,22 @@
 }
 
 .modal {
-	position: absolute;
+	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	position: fixed;
-	z-index: 1000;
-	visibility: hidden;
+	transform: translate(-50%, -50%) scale(0.96);
+	z-index: -1000;
+	opacity: 0;
 	display: flex;
 	box-shadow: #00000033 0 30px 60px;
 	background-color: #fff;
 	border-radius: 20px;
+	transition: transform 150ms ease 0s, opacity 150ms ease 0s;
+	&Active {
+		z-index: 1000;
+		opacity: 1;
+		transform: translate(-50%, -50%) scale(1);
+	}
 }
 .modalClose {
 	position: absolute;
@@ -83,9 +88,7 @@
 .modalClose:hover {
 	transform: scale(1.11);
 }
-.modalActive {
-	visibility: visible;
-}
+
 .modalActive ~ .modalBg {
 	visibility: visible;
 }
@@ -122,16 +125,18 @@
 	padding: 0 3px 0;
 }
 .modalScroll {
+	width: calc(100% + 27px);
 	height: 487px;
 	overflow: hidden scroll;
-	padding: 0 17px;
-	margin-bottom: 25px;
+	padding: 0 17px 25px;
 }
 .modalScroll::-webkit-scrollbar {
+	position: absolute;
 	width: 8px;
+	right: 0;
 }
 .modalScroll::-webkit-scrollbar-thumb {
-	background-color: rgba(57, 57, 57, 0.3);
+	background-color: rgba(57, 57, 57, 0.7);
 	border-radius: 4px;
 }
 .modalCardBtn {
@@ -139,7 +144,7 @@
 	width: 100%;
 	height: 48px;
 	padding: 12px 24px;
-	margin: auto;
+	margin-top: 25px;
 	border: none;
 	background-color: #ff6900;
 	font-family: inherit;
@@ -191,6 +196,7 @@
 	border-bottom: 1px solid transparent;
 	text-decoration: line-through;
 }
+
 .ingredientListItem[data-removed='true']::after {
 	content: url('../../../public/return.svg');
 }
