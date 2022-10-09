@@ -117,6 +117,8 @@
 	width: 394px;
 	height: 100%;
 	padding: 30px;
+	background-color: #fcfcfc;
+	border-radius: 0 20px 20px 0;
 }
 .modalTitle {
 	font-size: 24px;
@@ -125,26 +127,28 @@
 	padding: 0 3px 0;
 }
 .modalScroll {
-	width: calc(100% + 27px);
+	width: calc(100% + 30px);
 	height: 487px;
 	overflow: hidden scroll;
-	padding: 0 17px 25px;
+	padding: 0 17px 25px 0;
 }
-.modalScroll::-webkit-scrollbar {
-	position: absolute;
-	width: 8px;
-	right: 0;
-}
-.modalScroll::-webkit-scrollbar-thumb {
-	background-color: rgba(57, 57, 57, 0.7);
-	border-radius: 4px;
-}
+
+// .modalScroll::-webkit-scrollbar {
+// 	position: absolute;
+// 	width: 8px;
+// 	right: 0;
+// }
+// .modalScroll::-webkit-scrollbar-thumb {
+// 	background-color: rgba(57, 57, 57, 0.7);
+// 	border-radius: 4px;
+// }
+
 .modalCardBtn {
 	display: block;
 	width: 100%;
 	height: 48px;
 	padding: 12px 24px;
-	margin-top: 25px;
+	margin-top: 20px;
 	border: none;
 	background-color: #ff6900;
 	font-family: inherit;
@@ -158,7 +162,6 @@
 	cursor: pointer;
 }
 .modalInfo {
-	font-family: 'Segoe UI', sans-serif;
 	color: #5c6370;
 	font-size: 14px;
 	line-height: 20px;
@@ -202,57 +205,16 @@
 }
 
 .addonsTitle {
-	font-size: 18px;
+	font-size: 20px;
 	color: #000;
-	line-height: 1;
-	font-weight: 500;
+	line-height: 24px;
+	font-weight: 700;
 	margin-top: 22px;
 	margin-bottom: 12px;
 }
+
 .addonsList {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
-}
-.addonsCard {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	text-align: center;
-	width: calc(33.3333% - 6px);
-	height: 166px;
-	margin-bottom: 8px;
-	background-color: #fff;
-	box-shadow: #0605321f 0 4px 20px;
-	border-radius: 12px;
-	transition: box-shadow 150ms ease-out;
-	cursor: pointer;
-	border: 1px solid white;
-}
-.addonsCardSelected {
-	box-shadow: #0605321f 0 0 8px;
-	border: 1px solid #ff6900;
-}
-.addonsCardSelected::after {
-	position: absolute;
-	top: 3px;
-	right: 3px;
-	content: url('../../../public/tick.svg');
-}
-
-.addonCardImage {
-	width: 90px;
-}
-.addonCardTitle {
-	height: 32px;
-	font-size: 12px;
-	font-weight: 400;
-	line-height: 16px;
-}
-.addonCardPrice {
-	font-size: 16px;
-	line-height: 20px;
-	font-weight: 500;
-	margin: 4px;
 }

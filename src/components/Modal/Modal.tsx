@@ -1,17 +1,22 @@
 import classNames from 'classnames'
+import { Product } from 'constants/dataBase/interfces'
 import { useRef, MouseEvent, RefObject, useEffect } from 'react'
 import { capitalize } from 'utils'
+import { AddonCard } from './components/AddonCard'
+import { INGREDIENTS } from 'constants/dataBase/ingredients/ingredients'
 // @ts-ignore
 import styles from './Modal.module.scss'
 
 export interface IModalProps {
 	isModalOpen: boolean
 	setIsModalOpen: Function
+	product: Product | undefined
 }
 
 export const Modal: React.FC<IModalProps> = ({
 	isModalOpen,
 	setIsModalOpen,
+	product,
 }: IModalProps) => {
 	const smallSliderRef = useRef<HTMLDivElement>(null)
 	const largeSliderRef = useRef<HTMLDivElement>(null)
@@ -39,7 +44,7 @@ export const Modal: React.FC<IModalProps> = ({
 		}
 	}
 
-	return (
+	return product ? (
 		<>
 			<div
 				className={classNames(styles.modal, styles.modalMedium, {
@@ -54,10 +59,10 @@ export const Modal: React.FC<IModalProps> = ({
 				>
 					<img src='modal_close.svg' alt='Close button' />
 				</button>
-				<div className={styles.modalLeft}>Hello</div>
+				<div className={styles.modalLeft} />
 				<div className={styles.modalRight}>
 					<div className={styles.modalScroll}>
-						<h4 className={styles.modalTitle}>Овощи и грибы</h4>
+						<h4 className={styles.modalTitle}>{product.title}</h4>
 						<p className={classNames(styles.modalInfo, styles.info)}>
 							<span className={styles.infoSize} id='info_size'>
 								25 см
@@ -70,37 +75,13 @@ export const Modal: React.FC<IModalProps> = ({
 						<ul
 							className={classNames(styles.modalIngredientList, styles.ingredientList)}
 						>
-							{[
-								{
-									title: 'базилик1',
-									'data-optional': true,
-								},
-								{
-									title: 'базилик2',
-									'data-optional': true,
-								},
-								{
-									title: 'базилик3',
-									'data-optional': false,
-								},
-								{
-									title: 'базилик4',
-									'data-optional': false,
-								},
-								{
-									title: 'базилик5',
-									'data-optional': true,
-								},
-								{
-									title: 'базилик6',
-									'data-optional': false,
-								},
-							].map((indredient, index, arr) => {
+							{product.ingredients.map((indredientId, index, arr) => {
+								const ingredient = INGREDIENTS[indredientId - 1]
 								return (
 									<>
 										<li
 											className={styles.ingredientListItem}
-											data-optional={indredient['data-optional']}
+											data-optional={ingredient['data-optional']}
 											data-removed='false'
 											onClick={e => {
 												if (
@@ -115,7 +96,7 @@ export const Modal: React.FC<IModalProps> = ({
 											}}
 										>
 											<span>
-												{!index ? capitalize(indredient.title) : indredient.title}
+												{!index ? capitalize(ingredient.title) : ingredient.title}
 											</span>
 										</li>
 										{arr.length - 1 !== index && ','}
@@ -203,26 +184,18 @@ export const Modal: React.FC<IModalProps> = ({
 										price: 5000,
 									},
 								].map(addon => (
-									<div className={classNames(styles.addonsCard, styles.addonCard)}>
-										<img
-											src={addon.img}
-											alt={addon.title}
-											className={styles.addonCardImage}
-										/>
-										<h6 className={styles.addonCardTitle}>{addon.title}</h6>
-										<p className={styles.addonCardPrice}>{addon.price} сум</p>
-									</div>
+									<AddonCard {...addon} />
 								))}
 							</div>
 						</div>
 					</div>
 
 					<button className={styles.modalCardBtn} type='button' tabIndex={-1}>
-						Добавить в корзину за 85 000 сум
+						Добавить в корзину за {product.price} сум
 					</button>
 				</div>
 			</div>
 			<div className={styles.modalBg} />
 		</>
-	)
+	) : null
 }
