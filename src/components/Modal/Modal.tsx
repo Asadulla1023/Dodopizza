@@ -1,11 +1,11 @@
 import classNames from 'classnames'
+import { ADDONS, INGREDIENTS } from 'constants/dataBase/'
 import { Product } from 'constants/dataBase/interfces'
-import { useRef, MouseEvent, RefObject, useEffect } from 'react'
+import { MouseEvent, RefObject, useEffect, useRef } from 'react'
 import { capitalize } from 'utils'
-import { AddonCard } from './components/AddonCard'
-import { INGREDIENTS } from 'constants/dataBase/ingredients/ingredients'
-// @ts-ignore
+
 import styles from './Modal.module.scss'
+import { AddonCard } from './components/AddonCard'
 
 export interface IModalProps {
 	isModalOpen: boolean
@@ -160,42 +160,32 @@ export const Modal: React.FC<IModalProps> = ({
 						</div>
 
 						<div className={styles.addons}>
-							<h5 className={styles.addonsTitle}>Добавить в пиццу</h5>
+							{product.addons && (
+								<h5 className={styles.addonsTitle}>Добавить в пиццу</h5>
+							)}
 							<div className={styles.addonsList}>
-								{[
-									{
-										img: 'https://dodopizza-a.akamaihd.net/static/Img/Ingredients/000D3A219740A95611E9DBAED95FEBAA',
-										title: 'Острый халапеньо',
-										price: 5000,
-									},
-									{
-										img: 'https://dodopizza-a.akamaihd.net/static/Img/Ingredients/000D3A219740A95611EA0840DB86284E',
-										title: 'Сыр моцарелла',
-										price: 18000,
-									},
-									{
-										img: 'https://dodopizza-a.akamaihd.net/static/Img/Ingredients/000D3A262427A95111E9DBAF25CA64B9',
-										title: 'Ветчина',
-										price: 10000,
-									},
-									{
-										img: 'https://dodopizza-a.akamaihd.net/static/Img/Ingredients/000D3A219740A95611E9DBAED95FEBAA',
-										title: 'Острый халапеньо',
-										price: 5000,
-									},
-								].map(addon => (
-									<AddonCard {...addon} />
-								))}
+								{product.addons &&
+									product.addons.map(addonTitle => {
+										const addon = ADDONS.find(add => {
+											return add.title === addonTitle
+										})
+										if (addon) {
+											return <AddonCard {...addon} />
+										}
+										return null
+									})}
 							</div>
 						</div>
 					</div>
 
-					<button className={styles.modalCardBtn} type='button' tabIndex={-1}>
-						Добавить в корзину за {product.price} сум
-					</button>
+					<div className={styles.modalCardBtnContainer}>
+						<button className={styles.modalCardBtn} type='button' tabIndex={-1}>
+							Добавить в корзину за {product.price} сум
+						</button>
+					</div>
 				</div>
 			</div>
-			<div className={styles.modalBg} />
+			<div className={styles.modalBg} onClick={modalCloseHandler} />
 		</>
 	) : null
 }

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
+
 import { NAVBAR_CONFIG } from '../../constants'
-// @ts-ignore
 import styles from './NavigationBar.module.scss'
 
 export const NavigationBar: React.FC = () => (

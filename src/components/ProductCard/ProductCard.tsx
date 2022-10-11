@@ -1,5 +1,5 @@
 import { Product } from 'constants/dataBase/products/product'
-// @ts-ignore
+
 import styles from './ProductCard.module.scss'
 
 export interface IProductCardProps {

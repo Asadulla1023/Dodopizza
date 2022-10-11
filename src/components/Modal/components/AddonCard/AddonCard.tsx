@@ -1,12 +1,12 @@
 import classNames from 'classnames'
 import { useState } from 'react'
-// @ts-ignore
+
 import styles from './AddonCard.module.scss'
 
 export interface IAddonCardProps {
 	img: string
 	title: string
-	price: number
+	price: any
 }
 
 export const AddonCard: React.FC<IAddonCardProps> = ({
@@ -26,7 +26,7 @@ export const AddonCard: React.FC<IAddonCardProps> = ({
 		>
 			<img src={img} alt={title} className={styles.addonCardImage} />
 			<h6 className={styles.addonCardTitle}>{title}</h6>
-			<p className={styles.addonCardPrice}>{price} сум</p>
+			<p className={styles.addonCardPrice}>{price.medium} сум</p>
 		</div>
 	)
 }

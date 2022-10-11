@@ -1,4 +1,3 @@
-// @ts-ignore
 import styles from './Banner.module.scss'
 
 export interface IBannerProps {

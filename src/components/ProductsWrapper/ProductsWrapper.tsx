@@ -1,4 +1,3 @@
-// @ts-ignore
 import styles from './ProductsWrapper.module.scss'
 
 export const ProductsWrapper: React.FC<any> = (props: any) => {

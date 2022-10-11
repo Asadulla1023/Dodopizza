@@ -1,12 +1,10 @@
-import classNames from 'classnames'
-import { useState, useEffect, useRef } from 'react'
-// @ts-ignore
-import styles from './AuthModal.module.scss'
-
-import PhoneInput from 'react-phone-input-2'
-import { PatternFormat } from 'react-number-format'
-
 import axios from 'axios'
+import classNames from 'classnames'
+import { useEffect, useRef, useState } from 'react'
+import { PatternFormat } from 'react-number-format'
+import PhoneInput from 'react-phone-input-2'
+
+import styles from './AuthModal.module.scss'
 
 export interface IAuthModalProps {
 	isAuthModalOpen: boolean
