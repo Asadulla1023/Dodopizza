@@ -1,6 +1,6 @@
 import { ComboProductTypes } from '../interfces'
 
-export const COMBOS: Array<ComboProductTypes> = [
+export const COMBOS: Array<any> = [
 	{
 		id: 1,
 		title: '3 пиццы 25 см',

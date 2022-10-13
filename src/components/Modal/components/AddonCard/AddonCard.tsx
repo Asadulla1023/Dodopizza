@@ -26,7 +26,7 @@ export const AddonCard: React.FC<IAddonCardProps> = ({
 		>
 			<img src={img} alt={title} className={styles.addonCardImage} />
 			<h6 className={styles.addonCardTitle}>{title}</h6>
-			<p className={styles.addonCardPrice}>{price.medium} сум</p>
+			<p className={styles.addonCardPrice}>{price.medium / 1000} 000 сум</p>
 		</div>
 	)
 }

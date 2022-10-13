@@ -1,4 +1,3 @@
-import { ProductType } from './dataBase/interfces'
 import {
 	COMBOS,
 	DESSERTS,
@@ -7,6 +6,7 @@ import {
 	PIZZAS_COMBO,
 	SNAKS,
 } from './dataBase'
+import { ProductType } from './dataBase/interfces'
 
 export const NAVBAR_CONFIG = [
 	{
@@ -85,3 +85,52 @@ export const PRODUCTS_DATA: Array<ProductType> = [
 ]
 
 export const TEL_CODES_UZB = [33, 88, 90, 91, 93, 94, 95, 97, 98, 99]
+
+export interface ISizes {
+	small: {
+		title: string
+		size: number
+	}
+	medium: {
+		title: string
+		size: number
+	}
+	large: {
+		title: string
+		size: number
+	}
+}
+
+export interface IDoughTypes {
+	normal: {
+		title: string
+	}
+	thin: {
+		title: string
+	}
+}
+
+export const SIZES: ISizes = {
+	small: {
+		title: 'Маленькая',
+		size: 25,
+	},
+	medium: {
+		title: 'Средняя',
+		size: 30,
+	},
+	large: {
+		title: 'Большая',
+		size: 35,
+	},
+}
+
+export const DOUGH_TYPES: IDoughTypes = {
+	normal: {
+		title: 'традиционное',
+	},
+
+	thin: {
+		title: 'тонкое',
+	},
+}

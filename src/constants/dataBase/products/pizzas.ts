@@ -1,6 +1,6 @@
 import { ComboProducts, Product } from '../interfces'
 
-export const PIZZAS_COMBO: Array<ComboProducts> = [
+export const PIZZAS_COMBO: Array<any> = [
 	{
 		id: 1,
 		title: 'Пицца из половинок',
@@ -98,63 +98,29 @@ export const PIZZAS: Array<Product> = [
 			},
 		},
 	},
-	{
-		id: PIZZAS_COMBO.length + 2,
-		title: 'Миу-пицца с пепперони и игрушкой',
-		price: 75000,
-		description:
-			'Сыр моцарелла, пепперони, смесь сыров чеддер и пармезан, пицца-соус',
-		ingredients: [3, 7, 6, 8],
-		img: 'https://cdn.dodostatic.net/static/Img/Products/5eca54ca8e3f4c4b986a26cdb7d7d09a_584x584.jpeg',
-		sizes: {
-			small: {
-				price: 23,
-				imgs: {
-					normal:
-						'https://dodopizza-a.akamaihd.net/static/Img/Products/b29f2f85490e4e66bd0fe3f94543a884_1875x1875.jpeg',
-				},
-				nutrition: {
-					normal: {
-						diameter: 25,
-					},
-				},
-			},
-			medium: {
-				price: 65000,
-				imgs: {
-					thin:
-						'https://dodopizza-a.akamaihd.net/static/Img/Products/193863f2c1b443ca898c2abac06289ac_1875x1875.jpeg',
-					normal:
-						'https://dodopizza-a.akamaihd.net/static/Img/Products/47dac5afdcc84aaaa5fe029f2f840c82_1875x1875.jpeg',
-				},
-				nutrition: {
-					thin: {
-						diameter: 30,
-					},
-					normal: {
-						diameter: 30,
-					},
-				},
-			},
-			large: {
-				price: 78000,
-				imgs: {
-					thin:
-						'https://dodopizza-a.akamaihd.net/static/Img/Products/0fc17661e9fe46dfbf18195b4eb52462_1875x1875.jpeg',
-					normal:
-						'https://dodopizza-a.akamaihd.net/static/Img/Products/b3936c7bc5bd4f9789af59b326dddf4b_1875x1875.jpeg',
-				},
-				nutrition: {
-					thin: {
-						diameter: 35,
-					},
-					normal: {
-						diameter: 35,
-					},
-				},
-			},
-		},
-	},
+	// {
+	// 	id: PIZZAS_COMBO.length + 2,
+	// 	title: 'Миу-пицца с пепперони и игрушкой',
+	// 	price: 75000,
+	// 	description:
+	// 		'Сыр моцарелла, пепперони, смесь сыров чеддер и пармезан, пицца-соус',
+	// 	ingredients: [3, 7, 6, 8],
+	// 	img: 'https://cdn.dodostatic.net/static/Img/Products/5eca54ca8e3f4c4b986a26cdb7d7d09a_584x584.jpeg',
+	// 	sizes: {
+	// 		small: {
+	// 			price: 23,
+	// 			imgs: {
+	// 				normal:
+	// 					'https://dodopizza-a.akamaihd.net/static/Img/Products/b29f2f85490e4e66bd0fe3f94543a884_1875x1875.jpeg',
+	// 			},
+	// 			nutrition: {
+	// 				normal: {
+	// 					diameter: 25,
+	// 				},
+	// 			},
+	// 		},
+	// 	},
+	// },
 	{
 		id: PIZZAS_COMBO.length + 3,
 		title: 'Пепперони',
@@ -708,28 +674,28 @@ export const PIZZAS: Array<Product> = [
 			'Сыр блю чиз',
 		],
 	},
-	{
-		id: PIZZAS_COMBO.length + 11,
-		title: 'Пицца-сердце',
-		price: 75000,
-		description: 'Пицца-соус , сыр моцарелла, пепперони',
-		ingredients: [8, 3, 7],
-		img: 'https://cdn.dodostatic.net/static/Img/Products/d53b558190ab473597515c4da9d14096_584x584.png',
-		sizes: {
-			medium: {
-				price: 48000,
-				imgs: {
-					thin:
-						'https://dodopizza-a.akamaihd.net/static/Img/Products/d53b558190ab473597515c4da9d14096_584x584.png',
-				},
-				nutrition: {
-					thin: {
-						diameter: 30,
-					},
-				},
-			},
-		},
-	},
+	// {
+	// 	id: PIZZAS_COMBO.length + 11,
+	// 	title: 'Пицца-сердце',
+	// 	price: 75000,
+	// 	description: 'Пицца-соус , сыр моцарелла, пепперони',
+	// 	ingredients: [8, 3, 7],
+	// 	img: 'https://cdn.dodostatic.net/static/Img/Products/d53b558190ab473597515c4da9d14096_584x584.png',
+	// 	sizes: {
+	// 		medium: {
+	// 			price: 48000,
+	// 			imgs: {
+	// 				thin:
+	// 					'https://dodopizza-a.akamaihd.net/static/Img/Products/d53b558190ab473597515c4da9d14096_584x584.png',
+	// 			},
+	// 			nutrition: {
+	// 				thin: {
+	// 					diameter: 30,
+	// 				},
+	// 			},
+	// 		},
+	// 	},
+	// },
 	{
 		id: PIZZAS_COMBO.length + 12,
 		title: 'Индейка и грибы',

@@ -33,14 +33,14 @@ export interface Nutrition {
 
 export interface Sizes {
 	id?: any
-	small?: {
+	small: {
 		price: number
 		imgs?: Types
 		nutrition: {
 			normal?: Nutrition
 		}
 	}
-	medium?: {
+	medium: {
 		price: number
 		imgs?: Types
 		nutrition: {
@@ -48,7 +48,7 @@ export interface Sizes {
 			normal?: Nutrition
 		}
 	}
-	large?: {
+	large: {
 		price: number
 		imgs?: Types
 		nutrition: {
@@ -72,7 +72,7 @@ export interface Product {
 	img: string
 	ingredients: number[]
 	price: number
-	sizes?: Sizes
+	sizes: Sizes
 	totalPrice?: number
 	description: string
 	addons?: Array<any | boolean>

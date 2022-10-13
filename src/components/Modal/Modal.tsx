@@ -1,11 +1,13 @@
 import classNames from 'classnames'
 import { ADDONS, INGREDIENTS } from 'constants/dataBase/'
-import { Product } from 'constants/dataBase/interfces'
-import { MouseEvent, RefObject, useEffect, useRef } from 'react'
+import { Product, Sizes } from 'constants/dataBase/interfces'
+import { DOUGH_TYPES, IDoughTypes, ISizes, SIZES } from 'constants/index'
+import { useEffect, useState } from 'react'
 import { capitalize } from 'utils'
 
 import styles from './Modal.module.scss'
 import { AddonCard } from './components/AddonCard'
+import { SliderButton } from './components/SliderButton'
 
 export interface IModalProps {
 	isModalOpen: boolean
@@ -18,8 +20,8 @@ export const Modal: React.FC<IModalProps> = ({
 	setIsModalOpen,
 	product,
 }: IModalProps) => {
-	const smallSliderRef = useRef<HTMLDivElement>(null)
-	const largeSliderRef = useRef<HTMLDivElement>(null)
+	const [size, setSize] = useState<string>('medium')
+	const [doughType, setDoughType] = useState<string>('normal')
 
 	const modalCloseHandler = (): void => {
 		setIsModalOpen(false)
@@ -32,17 +34,6 @@ export const Modal: React.FC<IModalProps> = ({
 			document.body.style.overflow = ''
 		}
 	})
-
-	const sliderClickHandler = (
-		e: MouseEvent<HTMLDivElement>,
-		ref: RefObject<HTMLDivElement>
-	) => {
-		const reference = ref
-		if (e.currentTarget.dataset.offset && reference.current) {
-			reference.current.style.transform = `translate(calc(100% * ${+e.currentTarget
-				.dataset.offset}))`
-		}
-	}
 
 	return product ? (
 		<>
@@ -59,17 +50,27 @@ export const Modal: React.FC<IModalProps> = ({
 				>
 					<img src='modal_close.svg' alt='Close button' />
 				</button>
-				<div className={styles.modalLeft} />
+				<div className={styles.modalLeft}>
+					<div
+						className={classNames(styles.modalLeftContainer, {
+							[styles.small]: size === 'small',
+							[styles.medium]: size === 'medium',
+							[styles.large]: size === 'large',
+						})}
+					>
+						<img src={product.sizes[size as keyof Sizes].imgs[doughType]} alt='' />
+					</div>
+				</div>
 				<div className={styles.modalRight}>
 					<div className={styles.modalScroll}>
 						<h4 className={styles.modalTitle}>{product.title}</h4>
 						<p className={classNames(styles.modalInfo, styles.info)}>
 							<span className={styles.infoSize} id='info_size'>
-								25 см
+								{SIZES[size as keyof ISizes].size} см
 							</span>
-							,
+							,&nbsp;
 							<span className={styles.infoDoughType} id='info_dough_type'>
-								традиционное тесто
+								{DOUGH_TYPES[doughType as keyof IDoughTypes].title} тесто
 							</span>
 						</p>
 						<ul
@@ -104,60 +105,22 @@ export const Modal: React.FC<IModalProps> = ({
 								)
 							})}
 						</ul>
-						<div className={classNames(styles.modalSliderBtn, styles.sliderBtn)}>
-							<div
-								className={classNames(
-									styles.sliderBtnSlider,
-									styles.sliderBtnSliderSmall
-								)}
-								style={{ transform: 'translateX(100%)' }}
-								ref={largeSliderRef}
-							/>
-							{['Маленькая', 'Средняя', 'Большая'].map((text, index) => {
-								return (
-									<div
-										className={styles.sliderBtnItem}
-										data-offset={index}
-										key={text}
-										onClick={e => {
-											sliderClickHandler(e, largeSliderRef)
-										}}
-									>
-										<label>
-											<span>{text}</span>
-											<input type='radio' name='pizza-size' value='small' />
-										</label>
-									</div>
-								)
-							})}
-						</div>
-
-						<div className={classNames(styles.modalSliderBtn, styles.sliderBtn)}>
-							<div
-								className={classNames(
-									styles.sliderBtnSlider,
-									styles.sliderBtnSliderLarge
-								)}
-								ref={smallSliderRef}
-							/>
-							{['Традиционное', 'Тонкое'].map((text, index) => {
-								return (
-									<div
-										className={styles.sliderBtnItem}
-										data-offset={index}
-										key={text}
-										onClick={e => {
-											sliderClickHandler(e, smallSliderRef)
-										}}
-									>
-										<label>
-											<span>{text}</span>
-											<input type='radio' name='pizza-size' value='small' />
-										</label>
-									</div>
-								)
-							})}
-						</div>
+						<SliderButton
+							items={[
+								{ title: 'Маленькая', value: 'small' },
+								{ title: 'Средняя', value: 'medium' },
+								{ title: 'Большая', value: 'large' },
+							]}
+							setState={setSize}
+						/>
+						<SliderButton
+							items={[
+								{ title: 'Традиционное', value: 'normal' },
+								{ title: 'Тонкое', value: 'thin' },
+							]}
+							setState={setDoughType}
+							size={size}
+						/>
 
 						<div className={styles.addons}>
 							{product.addons && (

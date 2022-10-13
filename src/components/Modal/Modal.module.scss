@@ -1,59 +1,3 @@
-.sliderBtn {
-	position: relative;
-	width: 100%;
-	border-radius: 9999px;
-	background-color: #f3f3f7;
-	height: 32px;
-	display: flex;
-	overflow: hidden;
-	margin: 8px 0;
-}
-.sliderBtnSlider {
-	position: absolute;
-	box-sizing: border-box;
-	height: 32px;
-	padding: 2px;
-	transition: transform 0.2s ease-in-out;
-}
-.sliderBtnSliderSmall {
-	width: 33.3333333333%;
-}
-.sliderBtnSliderLarge {
-	width: 50%;
-}
-.sliderBtnSlider::before {
-	content: '';
-	display: block;
-	height: 100%;
-	width: 100%;
-	background-color: white;
-	box-shadow: #06053230 0 6px 20px;
-	border-radius: 9999px;
-}
-.sliderBtnItem {
-	width: 50%;
-	flex-grow: 1;
-}
-.sliderBtnItemSmall {
-	width: 33.3333333333%;
-}
-.sliderBtnItemLarge {
-	width: 50%;
-}
-.sliderBtnItem label {
-	z-index: 1000;
-	position: relative;
-	display: block;
-	width: 100%;
-	text-align: center;
-	font-size: 12px;
-	line-height: 32px;
-	cursor: pointer;
-}
-.sliderBtnItem label input {
-	display: none;
-}
-
 .modal {
 	position: fixed;
 	top: 50%;
@@ -112,7 +56,26 @@
 .modalLeft {
 	width: 530px;
 	height: 100%;
+	&Container {
+		transition: margin 0.25s ease-in-out 0s;
+		&.small {
+			margin: 128px 90px 0px;
+		}
+
+		&.medium {
+			margin: 92px 52px 0px;
+		}
+
+		&.large {
+			margin: 50px 14px 0px;
+		}
+		img {
+			width: 95%;
+			margin: 5% 0px 0px 5%;
+		}
+	}
 }
+
 .modalRight {
 	width: 394px;
 	height: 100%;
