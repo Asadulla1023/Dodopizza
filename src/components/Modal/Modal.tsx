@@ -2,8 +2,8 @@ import classNames from 'classnames'
 import { ADDONS, INGREDIENTS } from 'constants/dataBase/'
 import { Product, Sizes } from 'constants/dataBase/interfces'
 import { DOUGH_TYPES, IDoughTypes, ISizes, SIZES } from 'constants/index'
-import { useEffect, useState } from 'react'
-import { capitalize } from 'utils'
+import React, { useEffect, useState } from 'react'
+import { capitalize, formatPrice } from 'utils'
 
 import styles from './Modal.module.scss'
 import { AddonCard } from './components/AddonCard'
@@ -22,10 +22,54 @@ export const Modal: React.FC<IModalProps> = ({
 }: IModalProps) => {
 	const [size, setSize] = useState<string>('medium')
 	const [doughType, setDoughType] = useState<string>('normal')
+	const [price, setPrice] = useState<number>(0)
+
+	const [sliderButtonKey1, setSliderButtonKey1] = useState(Math.random())
+	const [sliderButtonKey2, setSliderButtonKey2] = useState(Math.random())
+	const [addonsConatainerKey, setAddonsConatainerKey] = useState(Math.random())
 
 	const modalCloseHandler = (): void => {
 		setIsModalOpen(false)
+		setSize('medium')
+		setDoughType('normal')
+		setSliderButtonKey1(Math.random())
+		setSliderButtonKey2(Math.random())
+		setAddonsConatainerKey(Math.random())
+
+		if (product) {
+			setPrice(product.sizes.medium.price)
+		}
 	}
+
+	const recalculatePrice = () => {
+		const selectedAddons = document.querySelectorAll(
+			'[data-selected="true"]'
+		) as NodeListOf<HTMLDivElement>
+
+		const prices: string[] = []
+		selectedAddons.forEach((selectedAddon: HTMLDivElement) => {
+			if (selectedAddon.dataset.selected && selectedAddon.dataset.price) {
+				prices.push(selectedAddon.dataset.price)
+			}
+		})
+
+		if (product) {
+			const sum = prices.reduce((a, b) => {
+				return +a + +b
+			}, product.sizes[size as keyof Sizes].price)
+			setPrice(sum)
+		}
+	}
+
+	useEffect(() => {
+		if (product && price === 0) {
+			setPrice(+product.sizes[size as keyof Sizes].price)
+		}
+	})
+
+	useEffect(() => {
+		recalculatePrice()
+	}, [size])
 
 	useEffect(() => {
 		if (isModalOpen) {
@@ -79,7 +123,7 @@ export const Modal: React.FC<IModalProps> = ({
 							{product.ingredients.map((indredientId, index, arr) => {
 								const ingredient = INGREDIENTS[indredientId - 1]
 								return (
-									<>
+									<React.Fragment key={Math.random()}>
 										<li
 											className={styles.ingredientListItem}
 											data-optional={ingredient['data-optional']}
@@ -101,7 +145,7 @@ export const Modal: React.FC<IModalProps> = ({
 											</span>
 										</li>
 										{arr.length - 1 !== index && ','}
-									</>
+									</React.Fragment>
 								)
 							})}
 						</ul>
@@ -112,6 +156,7 @@ export const Modal: React.FC<IModalProps> = ({
 								{ title: 'Большая', value: 'large' },
 							]}
 							setState={setSize}
+							key={sliderButtonKey1}
 						/>
 						<SliderButton
 							items={[
@@ -120,20 +165,28 @@ export const Modal: React.FC<IModalProps> = ({
 							]}
 							setState={setDoughType}
 							size={size}
+							key={sliderButtonKey2}
 						/>
 
 						<div className={styles.addons}>
 							{product.addons && (
 								<h5 className={styles.addonsTitle}>Добавить в пиццу</h5>
 							)}
-							<div className={styles.addonsList}>
+							<div className={styles.addonsList} key={addonsConatainerKey}>
 								{product.addons &&
 									product.addons.map(addonTitle => {
 										const addon = ADDONS.find(add => {
 											return add.title === addonTitle
 										})
 										if (addon) {
-											return <AddonCard {...addon} />
+											return (
+												<AddonCard
+													{...addon}
+													size={size}
+													priceState={[price, setPrice]}
+													key={addonTitle}
+												/>
+											)
 										}
 										return null
 									})}
@@ -143,7 +196,7 @@ export const Modal: React.FC<IModalProps> = ({
 
 					<div className={styles.modalCardBtnContainer}>
 						<button className={styles.modalCardBtn} type='button' tabIndex={-1}>
-							Добавить в корзину за {product.price} сум
+							Добавить в корзину за {formatPrice(price)} сум
 						</button>
 					</div>
 				</div>
